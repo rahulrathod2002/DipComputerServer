@@ -1,0 +1,17 @@
+# Ignore Maven build output and log files
+target/
+*.log
+
+# Ignore Git files
+.git
+.gitignore
+
+# Ignore IDE files
+.settings/
+.project
+.classpath
+.factorypath
+
+# Ignore Docker files
+Dockerfile
+.dockerignore
