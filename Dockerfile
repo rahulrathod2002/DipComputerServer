@@ -8,6 +8,7 @@ WORKDIR /app
 COPY . .
 
 # Package the application
+RUN chmod +x ./mvnw
 RUN ./mvnw package -DskipTests
 
 # Use a smaller OpenJDK image to run the application
