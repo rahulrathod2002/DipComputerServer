@@ -38,28 +38,34 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-            .cors(cors -> cors.configurationSource(corsConfigurationSource()))
-            .csrf(csrf -> csrf.disable())
-            .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-            .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
-            .authorizeHttpRequests(authorize -> authorize
-                .requestMatchers("/api/admin/login").authenticated() // Authenticate login requests
-                .requestMatchers(HttpMethod.POST, "/api/products/**", "/api/carousel-images/**", "/api/reminders/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.PUT, "/api/products/**", "/api/carousel-images/**", "/api/reminders/**").hasRole("ADMIN")
-                .requestMatchers(HttpMethod.DELETE, "/api/products/**", "/api/carousel-images/**", "/api/reminders/**").hasRole("ADMIN")
-                .anyRequest().permitAll()
-            )
-            .httpBasic(org.springframework.security.config.Customizer.withDefaults()); // Enable HTTP Basic authentication
+                .cors(cors -> cors.configurationSource(corsConfigurationSource()))
+                .csrf(csrf -> csrf.disable())
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers("/api/admin/login").authenticated() // Authenticate login requests
+                        .requestMatchers(HttpMethod.POST, "/api/products/**", "/api/carousel-images/**",
+                                "/api/reminders/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.PUT, "/api/products/**", "/api/carousel-images/**",
+                                "/api/reminders/**")
+                        .hasRole("ADMIN")
+                        .requestMatchers(HttpMethod.DELETE, "/api/products/**", "/api/carousel-images/**",
+                                "/api/reminders/**")
+                        .hasRole("ADMIN")
+                        .anyRequest().permitAll())
+                .httpBasic(org.springframework.security.config.Customizer.withDefaults()); // Enable HTTP Basic
+                                                                                           // authentication
         return http.build();
     }
 
     @Bean
     public UserDetailsService userDetailsService() {
         var user = User.builder()
-            .username(adminUsername)
-            .password(passwordEncoder().encode(adminPassword))
-            .roles("ADMIN")
-            .build();
+                .username(adminUsername)
+                .password(passwordEncoder().encode(adminPassword))
+                .roles("ADMIN")
+                .build();
         return new InMemoryUserDetailsManager(user);
     }
 
@@ -71,7 +77,8 @@ public class SecurityConfig {
     @Bean
     public CorsConfigurationSource corsConfigurationSource() {
         CorsConfiguration configuration = new CorsConfiguration();
-        configuration.setAllowedOrigins(Arrays.asList("http://localhost:5173"));
+        configuration
+                .setAllowedOrigins(Arrays.asList("http://localhost:5173", "https://candid-kitten-5eab8d.netlify.app"));
         configuration.setAllowedMethods(Arrays.asList("GET", "POST", "PUT", "DELETE", "OPTIONS"));
         configuration.setAllowedHeaders(Arrays.asList("Authorization", "Content-Type"));
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
