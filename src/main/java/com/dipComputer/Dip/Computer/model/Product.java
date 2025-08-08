@@ -19,4 +19,5 @@ public class Product {
     private String storage;
     private String warranty;
     private String description;
+    private String productImageUrl;
 }

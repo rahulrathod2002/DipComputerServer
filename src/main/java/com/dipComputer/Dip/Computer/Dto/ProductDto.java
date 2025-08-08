@@ -11,4 +11,5 @@ public class ProductDto {
     private String storage;
     private String warranty;
     private String description;
+    private String productImageUrl;
 }
