@@ -38,22 +38,7 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<Product> searchProducts(String keyword) {
-        if (keyword.startsWith("under ")) {
-            try {
-                double price = Double.parseDouble(keyword.substring(6));
-                return productRepository.findByPriceLessThan(price);
-            } catch (NumberFormatException e) {
-                // Ignore if the number is not valid
-            }
-        } else if (keyword.startsWith("above ")) {
-            try {
-                double price = Double.parseDouble(keyword.substring(6));
-                return productRepository.findByPriceGreaterThan(price);
-            } catch (NumberFormatException e) {
-                // Ignore if the number is not valid
-            }
-        }
-        return productRepository.findByProductNameContainingIgnoreCase(keyword);
+        return productRepository.searchByKeyword(keyword);
     }
 
     @Override
@@ -70,21 +55,14 @@ public class ProductServiceImpl implements ProductService {
         product.setProductName(productDto.getProductName());
         product.setPrice(productDto.getPrice());
         product.setProcessor(productDto.getProcessor());
-        product.setScreenSizeInInch(productDto.getScreenSizeInInch());
-        product.setRamInGB(productDto.getRamInGB());
-        product.setOs(productDto.getOs());
-        product.setStorageCapacityGB(productDto.getStorageCapacityGB());
-        product.setWarrantyYears(productDto.getWarrantyYears());
-        product.setIncludesBatteryWarranty(productDto.isIncludesBatteryWarranty());
-        product.setIncludesAdapterWarranty(productDto.isIncludesAdapterWarranty());
-        product.setTouchscreen(productDto.isTouchscreen());
-        product.setHasWebcam(productDto.isHasWebcam());
-        product.setProductCondition(productDto.getProductCondition());
-        product.setImageUrl(productDto.getImageUrl());
+        product.setRam(productDto.getRam());
+        product.setStorage(productDto.getStorage());
+        product.setWarranty(productDto.getWarranty());
+        product.setDescription(productDto.getDescription());
     }
 
     @Override
     public List<String> getSearchSuggestions(String keyword) {
-        return productRepository.findTop5ByProductNameContainingIgnoreCase(keyword);
+        return productRepository.findByProductNameContainingIgnoreCase(keyword).stream().map(Product::getProductName).toList();
     }
 }

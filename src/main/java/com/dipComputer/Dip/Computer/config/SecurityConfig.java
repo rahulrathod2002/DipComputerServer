@@ -26,10 +26,10 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig {
 
-    @Value("${admin.username}")
+    @Value("${admin.username:admin}")
     private String adminUsername;
 
-    @Value("${admin.password}")
+    @Value("${admin.password:password}")
     private String adminPassword;
 
     @Autowired

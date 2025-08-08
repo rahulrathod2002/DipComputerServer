@@ -39,36 +39,22 @@ public class ProductServiceTest {
         Product product1 = new Product();
         product1.setId(1L);
         product1.setProductName("Laptop X1");
-        product1.setPrice(1200);
+        product1.setPrice("1200");
         product1.setProcessor("Intel i7");
-        product1.setScreenSizeInInch(15.6);
-        product1.setRamInGB(16);
-        product1.setOs("Windows 11");
-        product1.setStorageCapacityGB(512);
-        product1.setWarrantyYears(2);
-        product1.setIncludesBatteryWarranty(true);
-        product1.setIncludesAdapterWarranty(true);
-        product1.setTouchscreen(false);
-        product1.setHasWebcam(true);
-        product1.setProductCondition("New");
-        product1.setImageUrl("http://example.com/laptopx1.jpg");
+        product1.setRam("16");
+        product1.setStorage("512");
+        product1.setWarranty("2");
+        product1.setDescription("A powerful laptop");
 
         Product product2 = new Product();
         product2.setId(2L);
         product2.setProductName("Mouse Pro");
-        product2.setPrice(25);
+        product2.setPrice("25");
         product2.setProcessor("N/A");
-        product2.setScreenSizeInInch(0.0);
-        product2.setRamInGB(0);
-        product2.setOs("N/A");
-        product2.setStorageCapacityGB(0);
-        product2.setWarrantyYears(1);
-        product2.setIncludesBatteryWarranty(false);
-        product2.setIncludesAdapterWarranty(false);
-        product2.setTouchscreen(false);
-        product2.setHasWebcam(false);
-        product2.setProductCondition("Used");
-        product2.setImageUrl("http://example.com/mousepro.jpg");
+        product2.setRam("N/A");
+        product2.setStorage("N/A");
+        product2.setWarranty("1");
+        product2.setDescription("A wireless mouse");
 
         List<Product> products = Arrays.asList(product1, product2);
 
@@ -78,19 +64,12 @@ public class ProductServiceTest {
 
         assertEquals(2, result.size());
         assertEquals("Laptop X1", result.get(0).getProductName());
-        assertEquals(1200, result.get(0).getPrice());
+        assertEquals("1200", result.get(0).getPrice());
         assertEquals("Intel i7", result.get(0).getProcessor());
-        assertEquals(15.6, result.get(0).getScreenSizeInInch());
-        assertEquals(16, result.get(0).getRamInGB());
-        assertEquals("Windows 11", result.get(0).getOs());
-        assertEquals(512, result.get(0).getStorageCapacityGB());
-        assertEquals(2, result.get(0).getWarrantyYears());
-        assertEquals(true, result.get(0).isIncludesBatteryWarranty());
-        assertEquals(true, result.get(0).isIncludesAdapterWarranty());
-        assertEquals(false, result.get(0).isTouchscreen());
-        assertEquals(true, result.get(0).isHasWebcam());
-        assertEquals("New", result.get(0).getProductCondition());
-        assertEquals("http://example.com/laptopx1.jpg", result.get(0).getImageUrl());
+        assertEquals("16", result.get(0).getRam());
+        assertEquals("512", result.get(0).getStorage());
+        assertEquals("2", result.get(0).getWarranty());
+        assertEquals("A powerful laptop", result.get(0).getDescription());
 
         verify(productRepository, times(1)).findAll();
     }
@@ -100,26 +79,19 @@ public class ProductServiceTest {
         Product product = new Product();
         product.setId(1L);
         product.setProductName("Laptop X1");
-        product.setPrice(1200);
+        product.setPrice("1200");
         product.setProcessor("Intel i7");
-        product.setScreenSizeInInch(15.6);
-        product.setRamInGB(16);
-        product.setOs("Windows 11");
-        product.setStorageCapacityGB(512);
-        product.setWarrantyYears(2);
-        product.setIncludesBatteryWarranty(true);
-        product.setIncludesAdapterWarranty(true);
-        product.setTouchscreen(false);
-        product.setHasWebcam(true);
-        product.setProductCondition("New");
-        product.setImageUrl("http://example.com/laptopx1.jpg");
+        product.setRam("16");
+        product.setStorage("512");
+        product.setWarranty("2");
+        product.setDescription("A powerful laptop");
 
         when(productRepository.findById(1L)).thenReturn(Optional.of(product));
 
         Product result = productService.getProductById(1L);
 
         assertEquals("Laptop X1", result.getProductName());
-        assertEquals(1200, result.getPrice());
+        assertEquals("1200", result.getPrice());
         verify(productRepository, times(1)).findById(1L);
     }
 
@@ -137,43 +109,29 @@ public class ProductServiceTest {
     public void testSaveProduct() {
         ProductDto productDto = new ProductDto();
         productDto.setProductName("Keyboard Pro");
-        productDto.setPrice(75);
+        productDto.setPrice("75");
         productDto.setProcessor("N/A");
-        productDto.setScreenSizeInInch(0.0);
-        productDto.setRamInGB(0);
-        productDto.setOs("N/A");
-        productDto.setStorageCapacityGB(0);
-        productDto.setWarrantyYears(1);
-        productDto.setIncludesBatteryWarranty(false);
-        productDto.setIncludesAdapterWarranty(true);
-        productDto.setTouchscreen(false);
-        productDto.setHasWebcam(false);
-        productDto.setProductCondition("New");
-        productDto.setImageUrl("http://example.com/keyboardpro.jpg");
+        productDto.setRam("N/A");
+        productDto.setStorage("N/A");
+        productDto.setWarranty("1");
+        productDto.setDescription("A wireless keyboard");
 
         Product savedProduct = new Product();
         savedProduct.setId(1L);
         savedProduct.setProductName("Keyboard Pro");
-        savedProduct.setPrice(75);
+        savedProduct.setPrice("75");
         savedProduct.setProcessor("N/A");
-        savedProduct.setScreenSizeInInch(0.0);
-        savedProduct.setRamInGB(0);
-        savedProduct.setOs("N/A");
-        savedProduct.setStorageCapacityGB(0);
-        savedProduct.setWarrantyYears(1);
-        savedProduct.setIncludesBatteryWarranty(false);
-        savedProduct.setIncludesAdapterWarranty(true);
-        savedProduct.setTouchscreen(false);
-        savedProduct.setHasWebcam(false);
-        savedProduct.setProductCondition("New");
-        savedProduct.setImageUrl("http://example.com/keyboardpro.jpg");
+        savedProduct.setRam("N/A");
+        savedProduct.setStorage("N/A");
+        savedProduct.setWarranty("1");
+        savedProduct.setDescription("A wireless keyboard");
 
         when(productRepository.save(any(Product.class))).thenReturn(savedProduct);
 
         Product result = productService.saveProduct(productDto);
 
         assertEquals("Keyboard Pro", result.getProductName());
-        assertEquals(75, result.getPrice());
+        assertEquals("75", result.getPrice());
         verify(productRepository, times(1)).save(any(Product.class));
     }
 
@@ -196,12 +154,12 @@ public class ProductServiceTest {
         product2.setProductName("Gaming Laptop");
         List<Product> products = Arrays.asList(product1, product2);
 
-        when(productRepository.findByProductNameContainingIgnoreCase("laptop")).thenReturn(products);
+        when(productRepository.searchByKeyword("laptop")).thenReturn(products);
 
         List<Product> result = productService.searchProducts("laptop");
 
         assertEquals(2, result.size());
         assertEquals("Laptop", result.get(0).getProductName());
-        verify(productRepository, times(1)).findByProductNameContainingIgnoreCase("laptop");
+        verify(productRepository, times(1)).searchByKeyword("laptop");
     }
 }
