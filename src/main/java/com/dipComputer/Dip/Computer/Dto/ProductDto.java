@@ -10,6 +10,7 @@ public class ProductDto {
     private String ram;
     private String storage;
     private String warranty;
+    private String screenSizeInInch;
     private String description;
     private String productImageUrl;
 }

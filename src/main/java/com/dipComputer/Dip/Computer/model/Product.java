@@ -4,6 +4,8 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Column;
 import lombok.Data;
 
 @Entity
@@ -18,6 +20,11 @@ public class Product {
     private String ram;
     private String storage;
     private String warranty;
+    private String screenSizeInInch;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String description;
+    @Lob
+    @Column(columnDefinition = "TEXT")
     private String productImageUrl;
 }

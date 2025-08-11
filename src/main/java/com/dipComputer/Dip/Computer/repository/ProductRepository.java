@@ -11,7 +11,10 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductNameContainingIgnoreCase(String keyword);
 
     @Query("SELECT p FROM Product p WHERE " +
-            "LOWER(p.productName) LIKE LOWER(CONCAT('%', :keyword, '%')) OR " +
-            "LOWER(p.processor) LIKE LOWER(CONCAT('%', :keyword, '%'))")
+            "p.productName LIKE CONCAT('%', :keyword, '%') OR " +
+            "p.processor LIKE CONCAT('%', :keyword, '%') OR " +
+            "p.ram LIKE CONCAT('%', :keyword, '%') OR " +
+            "p.storage LIKE CONCAT('%', :keyword, '%') OR " +
+            "p.description LIKE CONCAT('%', :keyword, '%')")
     List<Product> searchByKeyword(@Param("keyword") String keyword);
 }

@@ -58,7 +58,9 @@ public class ProductServiceImpl implements ProductService {
         product.setRam(productDto.getRam());
         product.setStorage(productDto.getStorage());
         product.setWarranty(productDto.getWarranty());
+        product.setScreenSizeInInch(productDto.getScreenSizeInInch());
         product.setDescription(productDto.getDescription());
+        product.setProductImageUrl(productDto.getProductImageUrl());
     }
 
     @Override
