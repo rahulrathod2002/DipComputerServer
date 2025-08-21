@@ -48,15 +48,15 @@ public class SecurityConfig {
                                                                                                      // login requests
                                                 .requestMatchers(HttpMethod.POST, "/api/products/**",
                                                                 "/api/carousel-images/**",
-                                                                "/api/reminders/**")
+                                                                "/api/reminders/**", "/api/accessories/**")
                                                 .hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.PUT, "/api/products/**",
                                                                 "/api/carousel-images/**",
-                                                                "/api/reminders/**")
+                                                                "/api/reminders/**", "/api/accessories/**")
                                                 .hasRole("ADMIN")
                                                 .requestMatchers(HttpMethod.DELETE, "/api/products/**",
                                                                 "/api/carousel-images/**",
-                                                                "/api/reminders/**")
+                                                                "/api/reminders/**", "/api/accessories/**")
                                                 .hasRole("ADMIN")
                                                 .anyRequest().permitAll())
                                 .httpBasic(org.springframework.security.config.Customizer.withDefaults()); // Enable

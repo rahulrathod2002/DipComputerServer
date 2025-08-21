@@ -1,42 +1,64 @@
 package com.dipComputer.Dip.Computer.service;
 
-import com.dipComputer.Dip.Computer.model.CarouselImage;
-import com.dipComputer.Dip.Computer.repository.CarouselImageRepository;
+import com.dipComputer.Dip.Computer.model.Accessory;
+import com.dipComputer.Dip.Computer.repository.AccessoryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class CarouselImageServiceImpl implements CarouselImageService {
+public class AccessoryServiceImpl implements AccessoryService {
 
     @Autowired
-    private CarouselImageRepository carouselImageRepository;
+    private AccessoryRepository accessoryRepository;
 
     @Override
-    public List<CarouselImage> getAllCarouselImages() {
-        return carouselImageRepository.findAll();
+    public List<Accessory> getAllAccessories() {
+        return accessoryRepository.findAll();
     }
 
     @Override
-    public CarouselImage getCarouselImageById(Long id) {
-        return carouselImageRepository.findById(id).orElse(null);
+    public Accessory getAccessoryById(Long id) {
+        return accessoryRepository.findById(id).orElse(null);
     }
 
     @Override
-    public CarouselImage saveCarouselImage(CarouselImage carouselImage) {
-        String imageUrl = carouselImage.getImageUrl();
+    public Accessory saveAccessory(Accessory accessory) {
+        updateImageUrl(accessory);
+        return accessoryRepository.save(accessory);
+    }
+
+    @Override
+    public void deleteAccessory(Long id) {
+        accessoryRepository.deleteById(id);
+    }
+
+    @Override
+    public Accessory updateAccessory(Long id, Accessory accessoryDetails) {
+        Accessory accessory = getAccessoryById(id);
+        if (accessory != null) {
+            accessory.setName(accessoryDetails.getName());
+            accessory.setDescription(accessoryDetails.getDescription());
+            accessory.setImageUrl(accessoryDetails.getImageUrl());
+            updateImageUrl(accessory);
+            return accessoryRepository.save(accessory);
+        }
+        return null;
+    }
+
+    private void updateImageUrl(Accessory accessory) {
+        String imageUrl = accessory.getImageUrl();
         if (imageUrl != null && imageUrl.contains("drive.google.com")) {
             String fileId = extractFileIdFromGoogleDriveUrl(imageUrl);
             if (fileId != null) {
-                carouselImage.setImageUrl("api/carousel-images/image/" + fileId);
+                accessory.setImageUrl("api/accessories/image/" + fileId);
             } else {
-                carouselImage.setImageUrl(imageUrl);
+                accessory.setImageUrl(imageUrl);
             }
         } else {
-            carouselImage.setImageUrl(imageUrl);
+            accessory.setImageUrl(imageUrl);
         }
-        return carouselImageRepository.save(carouselImage);
     }
 
     private String extractFileIdFromGoogleDriveUrl(String url) {
@@ -67,10 +89,5 @@ public class CarouselImageServiceImpl implements CarouselImageService {
             }
         }
         return fileId;
-    }
-
-    @Override
-    public void deleteCarouselImage(Long id) {
-        carouselImageRepository.deleteById(id);
     }
 }

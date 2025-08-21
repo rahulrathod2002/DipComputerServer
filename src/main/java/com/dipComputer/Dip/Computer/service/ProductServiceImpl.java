@@ -77,13 +77,20 @@ public class ProductServiceImpl implements ProductService {
     private String extractFileIdFromGoogleDriveUrl(String url) {
         String fileId = null;
         if (url != null) {
-            int startIndex = url.indexOf("/d/");
-            if (startIndex != -1) {
-                int endIndex = url.indexOf("/", startIndex + 3);
-                if (endIndex != -1) {
-                    fileId = url.substring(startIndex + 3, endIndex);
-                } else {
+            if (url.contains("uc?export=view&id=")) {
+                int startIndex = url.indexOf("id=");
+                if (startIndex != -1) {
                     fileId = url.substring(startIndex + 3);
+                }
+            } else {
+                int startIndex = url.indexOf("/d/");
+                if (startIndex != -1) {
+                    int endIndex = url.indexOf("/", startIndex + 3);
+                    if (endIndex != -1) {
+                        fileId = url.substring(startIndex + 3, endIndex);
+                    } else {
+                        fileId = url.substring(startIndex + 3);
+                    }
                 }
             }
         }
