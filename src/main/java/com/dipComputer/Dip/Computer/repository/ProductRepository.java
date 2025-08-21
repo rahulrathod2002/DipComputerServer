@@ -10,6 +10,8 @@ import java.util.List;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     List<Product> findByProductNameContainingIgnoreCase(String keyword);
 
+    Product findByProductName(String productName);
+
     @Query("SELECT p FROM Product p WHERE " +
             "p.productName LIKE CONCAT('%', :keyword, '%') OR " +
             "p.processor LIKE CONCAT('%', :keyword, '%') OR " +

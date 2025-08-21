@@ -49,4 +49,18 @@ public class ProductController {
     public List<String> getSearchSuggestions(@RequestParam String keyword) {
         return productService.getSearchSuggestions(keyword);
     }
+
+    @GetMapping("/name/{name}")
+    public Product getProductByName(@PathVariable String name) {
+        return productService.getProductByName(name);
+    }
+
+    @GetMapping("/image/{fileId}")
+    public byte[] getImage(@PathVariable String fileId) throws java.io.IOException {
+        String url = "https://drive.google.com/uc?export=view&id=" + fileId;
+        java.net.URL imageUrl = new java.net.URL(url);
+        try (java.io.InputStream in = imageUrl.openStream()) {
+            return in.readAllBytes();
+        }
+    }
 }

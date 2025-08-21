@@ -13,4 +13,5 @@ public interface ProductService {
     List<Product> searchProducts(String keyword);
     Product updateProduct(Long id, ProductDto productDto);
     List<String> getSearchSuggestions(String keyword);
+    Product getProductByName(String name);
 }
