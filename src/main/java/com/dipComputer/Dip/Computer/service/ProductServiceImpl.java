@@ -4,6 +4,8 @@ import com.dipComputer.Dip.Computer.Dto.ProductDto;
 import com.dipComputer.Dip.Computer.model.Product;
 import com.dipComputer.Dip.Computer.repository.ProductRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,8 +17,8 @@ public class ProductServiceImpl implements ProductService {
     private ProductRepository productRepository;
 
     @Override
-    public List<Product> getAllProducts() {
-        return productRepository.findAll();
+    public Page<Product> getAllProducts(Pageable pageable) {
+        return productRepository.findAll(pageable);
     }
 
     @Override
@@ -37,8 +39,10 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public List<Product> searchProducts(String keyword) {
-        return productRepository.searchByKeyword(keyword);
+    public Page<Product> searchProducts(String keyword, Pageable pageable) {
+        return productRepository
+                .findByProductNameContainingIgnoreCaseOrProcessorContainingIgnoreCaseOrRamContainingIgnoreCaseOrStorageContainingIgnoreCaseOrDescriptionContainingIgnoreCase(
+                        keyword, keyword, keyword, keyword, keyword, pageable);
     }
 
     @Override
@@ -106,7 +110,8 @@ public class ProductServiceImpl implements ProductService {
 
     @Override
     public List<String> getSearchSuggestions(String keyword) {
-        return productRepository.findByProductNameContainingIgnoreCase(keyword).stream().map(Product::getProductName).toList();
+        return productRepository.findByProductNameContainingIgnoreCase(keyword).stream().map(Product::getProductName)
+                .toList();
     }
 
     @Override

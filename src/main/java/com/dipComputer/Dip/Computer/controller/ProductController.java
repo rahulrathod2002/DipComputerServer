@@ -4,6 +4,9 @@ import com.dipComputer.Dip.Computer.Dto.ProductDto;
 import com.dipComputer.Dip.Computer.model.Product;
 import com.dipComputer.Dip.Computer.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.CacheControl;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -25,11 +28,15 @@ public class ProductController {
     private ProductService productService;
 
     @GetMapping
-    public List<Product> getAllProducts(@RequestParam(required = false) String search) {
+    public Page<Product> getAllProducts(
+            @RequestParam(required = false) String search,
+            @RequestParam(defaultValue = "0") int page,
+            @RequestParam(defaultValue = "10") int size) {
+        Pageable pageable = PageRequest.of(page, size);
         if (search != null && !search.isEmpty()) {
-            return productService.searchProducts(search);
+            return productService.searchProducts(search, pageable);
         } else {
-            return productService.getAllProducts();
+            return productService.getAllProducts(pageable);
         }
     }
 
